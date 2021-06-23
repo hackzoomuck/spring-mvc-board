@@ -34,8 +34,6 @@ public class PostDto {
     return postId;
   }
 
-  public void setPostId(int postId) {
-    this.postId = postId;
-  }
+  public void setPostId(int postId) { this.postId = postId; }
 }
 

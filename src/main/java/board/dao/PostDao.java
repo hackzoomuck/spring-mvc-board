@@ -36,10 +36,22 @@ public class PostDao extends NamedParameterJdbcDaoSupport {
       query.append(" AND content LIKE ?");
     }
     else{
-      return Objects.requireNonNull(getJdbcTemplate().query(query.toString(), BeanPropertyRowMapper.newInstance(PostDto.class)));
+      return Objects.requireNonNull(getJdbcTemplate()).query(query.toString(), BeanPropertyRowMapper.newInstance(PostDto.class));
     }
 
     return Objects.requireNonNull(getJdbcTemplate())
         .query(query.toString(), BeanPropertyRowMapper.newInstance(PostDto.class), addLikePercentToValue.toString());
   }
+
+  public void savePost(PostDto postDto){
+    String query = "INSERT INTO post (title, content) VALUES (?, ?)";
+    String[] savePostValueArray = {postDto.getTitle(), postDto.getContent()};
+    Objects.requireNonNull(getJdbcTemplate()).update(query, savePostValueArray);
+  }
+
+  public PostDto getMostRecentPost(){
+    String query = "SELECT * FROM post ORDER BY post_id DESC limit 1";
+    return Objects.requireNonNull(getJdbcTemplate()).queryForObject(query, BeanPropertyRowMapper.newInstance(PostDto.class));
+  }
+
 }

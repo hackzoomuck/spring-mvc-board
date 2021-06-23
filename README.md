@@ -113,10 +113,12 @@ pring Transaction » 5.3.7
 2. 등록페이지 : 등록버튼 누른다.
     1. 입력 유효성 검사 :  
        - client : 제목 첫글자 공백 X, 제목 20자 초과 X, 제목 빈칸 X, 내용 100자 초과 X, 내용 빈칸 X. 
-       - server : 
-    2. DB에 저장 
-    3. 상세페이지 이동
+       - (x) server : 
+    2. DB에 저장 :
+       - 한글 
+    3. (x) 상세페이지 이동
 
 해결할 부분 : 
 - Dao를 service로 분리하기.
 - localhost:8080 -> index.html
+- board.css
