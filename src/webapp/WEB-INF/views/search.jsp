@@ -18,6 +18,7 @@
     <button type="submit">검색</button>
     <input type="button" value="전체검색" id="btnFindAll">
 </form>
+
 <h3>게시물 :</h3>
 <table>
     <thead>
@@ -37,6 +38,7 @@
     </c:forEach>
     </tbody>
 </table>
+</br><button><a href="/register">등록</a></button>
 </body>
 <script>
   const btnFindAll = document.getElementById("btnFindAll");
