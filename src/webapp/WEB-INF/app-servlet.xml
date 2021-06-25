@@ -10,7 +10,7 @@
         http://www.springframework.org/schema/context
         https://www.springframework.org/schema/context/spring-context.xsd ">
 
-<!--  <mvc:resources mapping="/resources/**" location="classpath*:/resources/" />-->
+  <mvc:resources mapping="/**" location="/static/" />
   <mvc:annotation-driven/>
   <context:component-scan base-package="board" />
 
