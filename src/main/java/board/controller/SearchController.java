@@ -16,7 +16,6 @@ public class SearchController {
   @GetMapping(value="/search")
   public String search(Model model, final String postItem, final String postItemValue) {
     model.addAttribute("postList", postDao.queryPost(postItem, postItemValue));
-    model.addAttribute("postItem", postItem);
     return "search";
   }
 
