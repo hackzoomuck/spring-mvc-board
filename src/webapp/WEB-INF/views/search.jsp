@@ -7,7 +7,7 @@
 <head>
     <title>Title</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="/js/search.js"></script>
+    <script type="text/javascript" src="/js/searchJS.js"></script>
     <style>
         #postTbodyId > tr:hover {
           background-color : #ff0;
@@ -32,12 +32,10 @@
 
 <h3>게시물 :</h3>
 <table class="borderBox">
-
     <colgroup>
         <col style="width:50px; "/>
         <col style="width:300px;"/>
         <col style="width:500px;"/>
-
     </colgroup>
     <thead>
         <tr>
