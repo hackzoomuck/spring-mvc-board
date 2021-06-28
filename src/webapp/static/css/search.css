@@ -1,0 +1,7 @@
+#postTbodyId > tr:hover {
+  background-color: #ff0;
+}
+
+.borderBox {
+  border-style: solid;
+}

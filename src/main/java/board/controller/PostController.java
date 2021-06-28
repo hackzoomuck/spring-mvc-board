@@ -10,9 +10,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class PostController {
+
   private final PostDao postDao;
 
-  public PostController(PostDao postDao){
+  public PostController(PostDao postDao) {
     this.postDao = postDao;
   }
 
@@ -25,7 +26,7 @@ public class PostController {
   @PostMapping(value = "/register")
   public String addPost(PostDto postDto) {
     postDao.savePost(postDto);
-    return "redirect:/detail/" + postDao.getMostRecentPost().getPostId();
+    return "redirect:/detail/ " + postDao.getMostRecentPost().getPostId();
   }
 
   @GetMapping(value = "detail/{postId}")
@@ -34,20 +35,20 @@ public class PostController {
     return "detail/detail";
   }
 
-  @GetMapping(value = "detail/update/{postId}")
+  @GetMapping(value = "/detail/update/{postId}")
   public String showPostUpdate(@PathVariable int postId, Model model) {
     model.addAttribute("postDto", postDao.getPostByPostId(postId));
     return "detail/update";
   }
 
-  @PostMapping(value = "detail/update/{postId}")
+  @PostMapping(value = "/detail/update/{postId}")
   public String updatePost(@PathVariable int postId, PostDto postDto) {
     postDao.updatePost(postDto);
-    return "redirect:/detail/" + postId;
+    return "redirect:/detail/ " + postId;
   }
 
-  @GetMapping(value = "detail/delete/{postId}")
-  public String deletePost(@PathVariable int postId){
+  @GetMapping(value = "/detail/delete/{postId}")
+  public String deletePost(@PathVariable int postId) {
     postDao.deletePost(postId);
     return "redirect:/search";
   }

@@ -18,5 +18,4 @@ public class SearchController {
     model.addAttribute("postList", postDao.queryPost(postItem, postItemValue));
     return "search";
   }
-
 }
