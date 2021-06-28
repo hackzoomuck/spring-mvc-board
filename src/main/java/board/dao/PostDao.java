@@ -17,54 +17,55 @@ public class PostDao extends NamedParameterJdbcDaoSupport {
 
   public List<PostDto> queryPost(String postItem, String postItemValue) {
 
-    var addLikePercentToValue = new StringBuilder();
-    addLikePercentToValue.append("%").append(postItemValue).append("%");
-    var query = new StringBuilder("SELECT * FROM post WHERE delete_whether=FALSE");
+    var addLikePercentToValue = "%" + postItemValue + "%";
+    var query = "SELECT * FROM post WHERE delete_whether=FALSE";
 
-    if("postAll".equals(postItem)){
-      query = new StringBuilder("SELECT * FROM post WHERE title LIKE ? OR content LIKE ?");
-      String[] postItemValueArray = {addLikePercentToValue.toString(), addLikePercentToValue.toString()};
-      return Objects.requireNonNull(getJdbcTemplate()).query(query.toString(), BeanPropertyRowMapper.newInstance(PostDto.class), postItemValueArray);
-    }
-    else if("title".equals(postItem)){
-      query.append(" AND title LIKE ?");
-    }
-    else if("content".equals(postItem)){
-      query.append(" AND content LIKE ?");
-    }
-    else{
-      return Objects.requireNonNull(getJdbcTemplate()).query(query.toString(), BeanPropertyRowMapper.newInstance(PostDto.class));
+    if ("postAll".equals(postItem)) {
+      query += " AND (title LIKE ? OR content LIKE ?)";
+      return Objects.requireNonNull(getJdbcTemplate())
+          .query(query, BeanPropertyRowMapper.newInstance(PostDto.class),
+              addLikePercentToValue, addLikePercentToValue);
+    } else if ("title".equals(postItem)) {
+      query += " AND title LIKE ?";
+    } else if ("content".equals(postItem)) {
+      query += " AND content LIKE ?";
+    } else {
+      return Objects.requireNonNull(getJdbcTemplate())
+          .query(query, BeanPropertyRowMapper.newInstance(PostDto.class));
     }
 
     return Objects.requireNonNull(getJdbcTemplate())
-        .query(query.toString(), BeanPropertyRowMapper.newInstance(PostDto.class), addLikePercentToValue.toString());
+        .query(query, BeanPropertyRowMapper.newInstance(PostDto.class),
+            addLikePercentToValue);
   }
 
-  public void savePost(PostDto postDto){
+  public void savePost(PostDto postDto) {
     var query = "INSERT INTO post (title, content) VALUES (?, ?)";
-    String[] savePostValueArray = {postDto.getTitle(), postDto.getContent()};
-    Objects.requireNonNull(getJdbcTemplate()).update(query, savePostValueArray);
+    Objects.requireNonNull(getJdbcTemplate())
+        .update(query, postDto.getTitle(), postDto.getContent());
   }
 
-  public PostDto getMostRecentPost(){
+  public PostDto getMostRecentPost() {
     var query = "SELECT * FROM post ORDER BY post_id DESC limit 1";
-    return Objects.requireNonNull(getJdbcTemplate()).queryForObject(query, BeanPropertyRowMapper.newInstance(PostDto.class));
+    return Objects.requireNonNull(getJdbcTemplate())
+        .queryForObject(query, BeanPropertyRowMapper.newInstance(PostDto.class));
   }
 
-  public PostDto getPostByPostId(int postId){
+  public PostDto getPostByPostId(int postId) {
     var query = "SELECT * FROM post WHERE post_id = ?";
-    return Objects.requireNonNull(getJdbcTemplate()).queryForObject(query,BeanPropertyRowMapper.newInstance(PostDto.class), postId);
+    return Objects.requireNonNull(getJdbcTemplate())
+        .queryForObject(query, BeanPropertyRowMapper.newInstance(PostDto.class), postId);
   }
 
-  public int deletePost(int postId){
+  public void deletePost(int postId) {
     var query = "UPDATE post SET delete_whether = TRUE WHERE post_id = " + postId;
-    return getJdbcTemplate().update(query);
+    Objects.requireNonNull(getJdbcTemplate()).update(query);
   }
 
-  public void updatePost(PostDto postDto){
+  public void updatePost(PostDto postDto) {
     var query = "UPDATE post SET title = ?, content = ? WHERE post_id = ?";
-    String[] updatePostValueArray = {postDto.getTitle(), postDto.getContent(),
-        String.valueOf(postDto.getPostId())};
-    getJdbcTemplate().update(query, updatePostValueArray);
+    Objects.requireNonNull(getJdbcTemplate())
+        .update(query, postDto.getTitle(), postDto.getContent(),
+            String.valueOf(postDto.getPostId()));
   }
 }
