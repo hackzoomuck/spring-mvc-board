@@ -44,9 +44,14 @@
             <td style="text-align: center;">내용</td>
         </tr>
     </thead>
+    <c:if test="${postList.size()==0}">
+        <tbody>
+            <td colspan="3" style="text-align: center;">검색된 내용이 없습니다.</td>
+        </tbody>
+    </c:if>
     <tbody id="postTbodyId">
     <c:forEach var="post" items="${postList}">
-        <tr style="cursor: pointer; ">
+        <tr style="cursor: pointer;">
             <td style="text-align: center"><c:out value="${post.postId}"/></td>
             <td><c:out value="${post.title}"/></td>
             <td><c:out value="${post.content}"/></td>
