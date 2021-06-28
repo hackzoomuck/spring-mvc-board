@@ -6,6 +6,7 @@
 <head>
     <title>Title</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="/js/detailJS.js"></script>
 </head>
 <body>
 <h2>상세 페이지</h2>
@@ -17,18 +18,4 @@
         <button type="button" id="deleteButton" value="${postId}">삭제</button>
     </form:form>
 </body>
-<script>
-  $(document).ready(function (){
-    $("#getListButton").on("click", function (){
-      const url = window.location.origin + "/search";
-      window.location.assign(url);
-    })
-    $("#deleteButton").on("click", function (){
-      if(window.confirm("삭제하시겠습니까?")) {
-        const url = window.location.origin + "/detail/delete/" + $(this).val();
-        window.location.assign(url);
-      }
-    })
-  })
-</script>
 </html>
