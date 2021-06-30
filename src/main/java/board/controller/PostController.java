@@ -26,10 +26,10 @@ public class PostController {
   @PostMapping(value = "/register")
   public String addPost(PostDto postDto) {
     postDao.savePost(postDto);
-    return "redirect:/detail/ " + postDao.getMostRecentPost().getPostId();
+    return "redirect:/detail/" + postDao.getMostRecentPost().getPostId();
   }
 
-  @GetMapping(value = "detail/{postId}")
+  @GetMapping(value = "/detail/{postId}")
   public String showPostDetail(@PathVariable int postId, Model model) {
     model.addAttribute("postDto", postDao.getPostByPostId(postId));
     return "detail/detail";
@@ -44,7 +44,7 @@ public class PostController {
   @PostMapping(value = "/detail/update/{postId}")
   public String updatePost(@PathVariable int postId, PostDto postDto) {
     postDao.updatePost(postDto);
-    return "redirect:/detail/ " + postId;
+    return "redirect:/detail/" + postId;
   }
 
   @GetMapping(value = "/detail/delete/{postId}")

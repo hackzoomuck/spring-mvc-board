@@ -1,6 +1,7 @@
 package board.dao;
 
 import board.dto.PostDto;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -13,6 +14,25 @@ public class PostDao extends NamedParameterJdbcDaoSupport {
 
   public PostDao(JdbcTemplate jdbcTemplate) {
     setJdbcTemplate(jdbcTemplate);
+  }
+
+  public int queryTotalCount(String postItem, String postItemValue) {
+    return queryPost(postItem, postItemValue).size();
+  }
+
+  public List<PostDto> queryCurrentPostList(int listSize, int pageNumber, String postItem,
+      String postItemValue) {
+    List<PostDto> postDtoList = new ArrayList<>(queryPost(postItem, postItemValue));
+    List<PostDto> result = new ArrayList<>();
+    int startListNumber = (pageNumber - 1) * listSize;
+    int lastListNumber = pageNumber * listSize;
+    if (postDtoList.size() < lastListNumber) {
+      lastListNumber = postDtoList.size();
+    }
+    for (int idx = startListNumber; idx < lastListNumber; idx++) {
+      result.add(postDtoList.get(idx));
+    }
+    return result;
   }
 
   public List<PostDto> queryPost(String postItem, String postItemValue) {
