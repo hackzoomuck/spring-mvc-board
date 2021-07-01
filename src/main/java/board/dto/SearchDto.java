@@ -5,12 +5,23 @@ import java.util.List;
 public class SearchDto {
 
   private int pageNumber = 1;
-  private int startPageNumber;
-  private int endPageNumber;
   private String postItem;
   private String postItemValue;
+
   private int totalCount;
   private List<PostDto> postDtoList;
+  private int startPageNumber;
+  private int endPageNumber;
+  private int totalEndPageNumber;
+
+  public int getTotalEndPageNumber() {
+    return totalEndPageNumber;
+  }
+
+  public void setTotalEndPageNumber(int totalEndPageNumber) {
+    this.totalEndPageNumber = totalEndPageNumber;
+  }
+
 
   public int getPageNumber() {
     return pageNumber;

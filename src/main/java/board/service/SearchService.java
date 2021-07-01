@@ -3,59 +3,47 @@ package board.service;
 import board.dao.PostDao;
 import board.dto.PostDto;
 import board.dto.SearchDto;
+import board.utils.PageUtils;
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Service;
 
 @Service
 public class SearchService {
 
-  private final static int LIST_SIZE = 10;
-  private final static int PAGE_SIZE = 5;
+  private static final int LIST_SIZE = 5;
+  private static final int PAGE_SIZE = 2;
   private final PostDao postDao;
 
   public SearchService(PostDao postDao) {
     this.postDao = postDao;
   }
 
-  public SearchDto search(final SearchDto searchDto) {
+  public SearchDto search(SearchDto searchDto) {
 
-    /**
-     * TODO  검색 기능 구현
-     * 0. search 함수 이름이 맞는지?
-     * 1. call total count
-     *  - type / keyword
-     * 2. call list (with pageNumber)
-     *  - list_size
-     *  - page_number
-     *  - type / keyword
-     * 3. SearchDto set
-     *  - total count
-     *  - list
-     */
-    int totalCount = postDao.queryTotalCount(searchDto.getPostItem(), searchDto.getPostItemValue());
-    List<PostDto> postDtoList = postDao
-        .queryCurrentPostList(LIST_SIZE, searchDto.getPageNumber(), searchDto.getPostItem(),
-            searchDto.getPostItemValue());
-
-    int startPageNumber = (searchDto.getPageNumber() / PAGE_SIZE) * PAGE_SIZE + 1;
-    int endPageNumber = (searchDto.getPageNumber() / PAGE_SIZE + 1) * PAGE_SIZE;
-    int totalEndPageNumber = totalCount / LIST_SIZE;
-
-    if (searchDto.getPageNumber() % PAGE_SIZE == 0) {
-      startPageNumber = searchDto.getPageNumber() - PAGE_SIZE + 1;
-      endPageNumber = searchDto.getPageNumber();
-    }
-    if (totalCount % LIST_SIZE > 0) {
-      totalEndPageNumber += 1;
-    }
-    if (totalEndPageNumber < endPageNumber) {
-      endPageNumber = totalEndPageNumber;
-    }
-
+    int totalCount = postDao.queryPost(searchDto.getPostItem(), searchDto.getPostItemValue())
+        .size();
+    List<PostDto> postDtoList = currentPostList(searchDto);
+    var pageUtils = new PageUtils();
+    pageUtils.pageCalculate(searchDto, totalCount, LIST_SIZE, PAGE_SIZE);
     searchDto.setTotalCount(totalCount);
     searchDto.setPostDtoList(postDtoList);
-    searchDto.setStartPageNumber(startPageNumber);
-    searchDto.setEndPageNumber(endPageNumber);
     return searchDto;
+  }
+
+  public List<PostDto> currentPostList(SearchDto searchDto) {
+
+    List<PostDto> postDtoList = new ArrayList<>(
+        postDao.queryPost(searchDto.getPostItem(), searchDto.getPostItemValue()));
+    List<PostDto> result = new ArrayList<>();
+    int startListNumber = (searchDto.getPageNumber() - 1) * LIST_SIZE;
+    int lastListNumber = searchDto.getPageNumber() * LIST_SIZE;
+    if (postDtoList.size() < lastListNumber) {
+      lastListNumber = postDtoList.size();
+    }
+    for (int idx = startListNumber; idx < lastListNumber; idx++) {
+      result.add(postDtoList.get(idx));
+    }
+    return result;
   }
 }

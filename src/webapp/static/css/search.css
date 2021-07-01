@@ -5,3 +5,7 @@
 .borderBox {
   border-style: solid;
 }
+
+.currentPageClass {
+  color: red;
+}

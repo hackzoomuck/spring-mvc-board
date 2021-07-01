@@ -58,15 +58,10 @@
 </table>
 <br>
 <button><a href="${pageContext.request.contextPath}/register">등록</a></button>
-<%--TODO
-1. 페이지 번호 출력 : 처음 페이지는 1로 searchDto의 pageNumber = 1로 초기화 (1번이 선택되어 있어야 한다.)
-1) pageCount = 5 로 번호만 출력.(listCount는 3개로 한다.) :
-2) 각 번호를 누를 수 있게 해준다.(데이터를 전달. 해당 데이터는 하이라이트).
---%>
-<div>
-    <c:forEach var="page" begin="${search.startPageNumber}" end="${search.endPageNumber}">
-        <button><c:out value="${page}"/></button>
-    </c:forEach>
+
+<div style="margin-left:23%">
+    <%@ include file="paging.jsp" %>
 </div>
 </body>
 </html>
+
