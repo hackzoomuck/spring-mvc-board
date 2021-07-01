@@ -1,7 +1,7 @@
 package board.controller;
 
 import board.dao.PostDao;
-import board.dto.PostDto;
+import board.dto.Post;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,13 +19,13 @@ public class PostController {
 
   @GetMapping(value = "/register")
   public String createPost(Model model) {
-    model.addAttribute(new PostDto());
+    model.addAttribute(new Post());
     return "register";
   }
 
   @PostMapping(value = "/register")
-  public String addPost(PostDto postDto) {
-    postDao.savePost(postDto);
+  public String addPost(Post post) {
+    postDao.savePost(post);
     return "redirect:/detail/" + postDao.getMostRecentPost().getPostId();
   }
 
@@ -42,8 +42,8 @@ public class PostController {
   }
 
   @PostMapping(value = "/detail/update/{postId}")
-  public String updatePost(@PathVariable int postId, PostDto postDto) {
-    postDao.updatePost(postDto);
+  public String updatePost(@PathVariable int postId, Post post) {
+    postDao.updatePost(post);
     return "redirect:/detail/" + postId;
   }
 

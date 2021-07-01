@@ -1,6 +1,7 @@
 package board.controller;
 
-import board.dto.SearchDto;
+import board.dto.Page;
+import board.dto.Search;
 import board.service.SearchService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,8 +17,10 @@ public class SearchController {
   }
 
   @GetMapping(value = "/search")
-  public String search(Model model, SearchDto searchDto) {
-    model.addAttribute("search", searchService.search(searchDto));
+  public String search(Model model, Search search, Page page) {
+    model.addAttribute("search", search);
+    model.addAttribute("post", searchService.search(search));
+    model.addAttribute("page", searchService.setPage(search, page));
     return "search";
   }
 }

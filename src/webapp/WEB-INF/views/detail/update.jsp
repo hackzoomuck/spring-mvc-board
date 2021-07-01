@@ -13,7 +13,7 @@
 </head>
 <body>
 <h2>수정 페이지</h2>
-<sf:form action="" method="post" modelAttribute="postDto">
+<sf:form action="" method="post" modelAttribute="post">
     <label for="inputTitle">제목 : </label>
     <sf:input path="title" id="inputTitle" type="text" style="width:420px"/><br>
     <div id="errorTitle" style="color:red"></div>

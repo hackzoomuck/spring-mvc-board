@@ -1,9 +1,9 @@
 package board.service;
 
 import board.dao.PostDao;
-import board.dto.PostDto;
-import board.dto.SearchDto;
-import board.utils.PageUtils;
+import board.dto.Page;
+import board.dto.Post;
+import board.dto.Search;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Service;
@@ -11,38 +11,36 @@ import org.springframework.stereotype.Service;
 @Service
 public class SearchService {
 
-  private static final int LIST_SIZE = 5;
-  private static final int PAGE_SIZE = 2;
   private final PostDao postDao;
 
   public SearchService(PostDao postDao) {
     this.postDao = postDao;
   }
 
-  public SearchDto search(SearchDto searchDto) {
-
-    int totalCount = postDao.queryPost(searchDto.getPostItem(), searchDto.getPostItemValue())
-        .size();
-    List<PostDto> postDtoList = currentPostList(searchDto);
-    var pageUtils = new PageUtils();
-    pageUtils.pageCalculate(searchDto, totalCount, LIST_SIZE, PAGE_SIZE);
-    searchDto.setTotalCount(totalCount);
-    searchDto.setPostDtoList(postDtoList);
-    return searchDto;
+  public List<Post> search(Search search) {
+    return currentPostList(search);
   }
 
-  public List<PostDto> currentPostList(SearchDto searchDto) {
+  public Page setPage(Search search, Page page) {
+    int totalCount = postDao.queryPost(search.getPostItem(), search.getPostItemValue()).size();
+    page.setTotalCount(totalCount);
+    page.setTotalEndPageNumber(search.getPostListSize());
+    page.setStartPageNumber(search.getPageNumber());
+    page.setEndPageNumber(search.getPageNumber());
+    return page;
+  }
 
-    List<PostDto> postDtoList = new ArrayList<>(
-        postDao.queryPost(searchDto.getPostItem(), searchDto.getPostItemValue()));
-    List<PostDto> result = new ArrayList<>();
-    int startListNumber = (searchDto.getPageNumber() - 1) * LIST_SIZE;
-    int lastListNumber = searchDto.getPageNumber() * LIST_SIZE;
-    if (postDtoList.size() < lastListNumber) {
-      lastListNumber = postDtoList.size();
+  public List<Post> currentPostList(Search search) {
+    List<Post> postList = new ArrayList<>(
+        postDao.queryPost(search.getPostItem(), search.getPostItemValue()));
+    List<Post> result = new ArrayList<>();
+    int startListNumber = (search.getPageNumber() - 1) * search.getPostListSize();
+    int lastListNumber = search.getPageNumber() * search.getPostListSize();
+    if (postList.size() < lastListNumber) {
+      lastListNumber = postList.size();
     }
     for (int idx = startListNumber; idx < lastListNumber; idx++) {
-      result.add(postDtoList.get(idx));
+      result.add(postList.get(idx));
     }
     return result;
   }

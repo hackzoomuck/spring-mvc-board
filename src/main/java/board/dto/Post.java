@@ -1,14 +1,15 @@
 package board.dto;
 
-public class PostDto {
+public class Post {
+
   private String title;
   private String content;
   private int postId;
 
-  public PostDto(){
+  public Post() {
   }
 
-  public PostDto(String title, String content, int postId) {
+  public Post(String title, String content, int postId) {
     this.title = title;
     this.content = content;
     this.postId = postId;
@@ -34,6 +35,8 @@ public class PostDto {
     return postId;
   }
 
-  public void setPostId(int postId) { this.postId = postId; }
+  public void setPostId(int postId) {
+    this.postId = postId;
+  }
 }
 

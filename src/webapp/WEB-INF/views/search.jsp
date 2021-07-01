@@ -41,13 +41,13 @@
         <th id="thTitle" style="text-align: center;">제목</th>
         <th id="thContent" style="text-align: center;">내용</th>
     </tr>
-    <c:if test="${search.postDtoList.size()==0}">
+    <c:if test="${post.size()==0}">
         <tbody>
         <td colspan="3" style="text-align: center;">검색된 내용이 없습니다.</td>
         </tbody>
     </c:if>
     <tbody id="postTbodyId">
-    <c:forEach var="post" items="${search.postDtoList}">
+    <c:forEach var="post" items="${post}">
         <tr style="cursor: pointer;">
             <td style="text-align: center"><c:out value="${post.postId}"/></td>
             <td><c:out value="${post.title}"/></td>
@@ -60,7 +60,7 @@
 <button><a href="${pageContext.request.contextPath}/register">등록</a></button>
 
 <div style="margin-left:23%">
-    <%@ include file="paging.jsp" %>
+    <%@ include file="common/include/paging.jsp" %>
 </div>
 </body>
 </html>

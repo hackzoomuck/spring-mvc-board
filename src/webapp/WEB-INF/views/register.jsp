@@ -11,7 +11,7 @@
 </head>
 <body>
 <h2>등록 페이지</h2>
-<sf:form action="register" method="post" modelAttribute="postDto">
+<sf:form action="register" method="post" modelAttribute="post">
     <label for="inputTitle">제목 : </label>
     <sf:input path="title" id="inputTitle" type="text" style="width:420px"/><br>
     <div id="errorTitle" style="color:red"></div>

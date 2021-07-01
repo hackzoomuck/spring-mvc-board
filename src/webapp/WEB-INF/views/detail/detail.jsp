@@ -12,9 +12,9 @@
 </head>
 <body>
 <h2>상세 페이지</h2>
-<div>제목 : <c:out value="${postDto.title}"/></div>
+<div>제목 : <c:out value="${post.title}"/></div>
 <hr>
-<div style="padding-bottom: 20px">내용 : <c:out value="${postDto.content}"/></div>
+<div style="padding-bottom: 20px">내용 : <c:out value="${post.content}"/></div>
 <form:form action="update/${postId}" method="get">
     <button type="button" id="getListButton">목록</button>
     <button type="submit" id="updateButton">수정</button>

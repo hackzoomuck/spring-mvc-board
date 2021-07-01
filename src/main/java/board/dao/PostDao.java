@@ -1,6 +1,6 @@
 package board.dao;
 
-import board.dto.PostDto;
+import board.dto.Post;
 import java.util.List;
 import java.util.Objects;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -15,7 +15,7 @@ public class PostDao extends NamedParameterJdbcDaoSupport {
     setJdbcTemplate(jdbcTemplate);
   }
 
-  public List<PostDto> queryPost(String postItem, String postItemValue) {
+  public List<Post> queryPost(String postItem, String postItemValue) {
 
     var addLikePercentToValue = "%" + postItemValue + "%";
     var query = "SELECT * FROM post WHERE delete_whether=FALSE";
@@ -23,7 +23,7 @@ public class PostDao extends NamedParameterJdbcDaoSupport {
     if ("postAll".equals(postItem)) {
       query += " AND (title LIKE ? OR content LIKE ?)";
       return Objects.requireNonNull(getJdbcTemplate())
-          .query(query, BeanPropertyRowMapper.newInstance(PostDto.class),
+          .query(query, BeanPropertyRowMapper.newInstance(Post.class),
               addLikePercentToValue, addLikePercentToValue);
     } else if ("title".equals(postItem)) {
       query += " AND title LIKE ?";
@@ -31,30 +31,30 @@ public class PostDao extends NamedParameterJdbcDaoSupport {
       query += " AND content LIKE ?";
     } else {
       return Objects.requireNonNull(getJdbcTemplate())
-          .query(query, BeanPropertyRowMapper.newInstance(PostDto.class));
+          .query(query, BeanPropertyRowMapper.newInstance(Post.class));
     }
 
     return Objects.requireNonNull(getJdbcTemplate())
-        .query(query, BeanPropertyRowMapper.newInstance(PostDto.class),
+        .query(query, BeanPropertyRowMapper.newInstance(Post.class),
             addLikePercentToValue);
   }
 
-  public void savePost(PostDto postDto) {
+  public void savePost(Post post) {
     var query = "INSERT INTO post (title, content) VALUES (?, ?)";
     Objects.requireNonNull(getJdbcTemplate())
-        .update(query, postDto.getTitle(), postDto.getContent());
+        .update(query, post.getTitle(), post.getContent());
   }
 
-  public PostDto getMostRecentPost() {
+  public Post getMostRecentPost() {
     var query = "SELECT * FROM post ORDER BY post_id DESC limit 1";
     return Objects.requireNonNull(getJdbcTemplate())
-        .queryForObject(query, BeanPropertyRowMapper.newInstance(PostDto.class));
+        .queryForObject(query, BeanPropertyRowMapper.newInstance(Post.class));
   }
 
-  public PostDto getPostByPostId(int postId) {
+  public Post getPostByPostId(int postId) {
     var query = "SELECT * FROM post WHERE post_id = ?";
     return Objects.requireNonNull(getJdbcTemplate())
-        .queryForObject(query, BeanPropertyRowMapper.newInstance(PostDto.class), postId);
+        .queryForObject(query, BeanPropertyRowMapper.newInstance(Post.class), postId);
   }
 
   public void deletePost(int postId) {
@@ -62,10 +62,10 @@ public class PostDao extends NamedParameterJdbcDaoSupport {
     Objects.requireNonNull(getJdbcTemplate()).update(query);
   }
 
-  public void updatePost(PostDto postDto) {
+  public void updatePost(Post post) {
     var query = "UPDATE post SET title = ?, content = ? WHERE post_id = ?";
     Objects.requireNonNull(getJdbcTemplate())
-        .update(query, postDto.getTitle(), postDto.getContent(),
-            String.valueOf(postDto.getPostId()));
+        .update(query, post.getTitle(), post.getContent(),
+            String.valueOf(post.getPostId()));
   }
 }
