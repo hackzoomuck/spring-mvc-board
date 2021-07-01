@@ -21,8 +21,9 @@ public class SearchService {
     return currentPostList(search);
   }
 
-  public Page setPage(Search search, Page page) {
+  public Page setPage(Search search) {
     int totalCount = postDao.queryPost(search.getPostItem(), search.getPostItemValue()).size();
+    var page = new Page();
     page.setTotalCount(totalCount);
     page.setTotalEndPageNumber(search.getPostListSize());
     page.setStartPageNumber(search.getPageNumber());

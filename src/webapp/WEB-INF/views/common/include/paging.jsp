@@ -1,7 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 
-<jsp:useBean id="search" scope="request" type="board.dto.Search"/>
 <c:if test="${page.startPageNumber ne 1 && page.endPageNumber eq page.totalEndPageNumber}">
     <a href="${pageContext.request.contextPath}${search.uri}&pageNumber=1">맨앞으로&nbsp</a>
 </c:if>

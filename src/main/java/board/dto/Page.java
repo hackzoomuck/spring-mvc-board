@@ -2,18 +2,12 @@ package board.dto;
 
 public class Page {
 
-  private final Search search;
-
   private int startPageNumber;
   private int endPageNumber;
   private int totalEndPageNumber;
   private int totalCount;
   private int pageSize = 2;
-
-  public Page(Search search) {
-    this.search = search;
-  }
-
+  
   public int getStartPageNumber() {
     return startPageNumber;
   }
